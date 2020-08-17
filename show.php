@@ -10,22 +10,31 @@
 <?php
 try {
      $db = new PDO('mysql:dbname=mydb;host=127.0.0.1;charset=utf8', 'root', 'root');
-     $memos = $db->query('SELECT * FROM phpmemos ORDER BY id DESC');
 } catch(PDOException $e) {
      echo '接続エラー：' . $e->getMessage();
 }
+$id = $_REQUEST['id'];
+if (!is_numeric($id) || $id <= 0)
+{
+     print('１以上の数字を入力してください');
+     exit();
+}
+
+$memos = $db->prepare('SELECT * FROM phpmemos WHERE id=?');
+$memos->execute(array($id));
+$memo = $memos->fetch();
 ?>
+
 <article class="bg-info my-5">
-     <?php while($memo = $memos->fetch()): ?>
-          <div class="card col-sm-4 mx-auto">
-               <div class="card-body">
-                    <p><a href="show.php?id=<?php print($memo['id']); ?>"><?php print(mb_substr($memo['memo'], 0, 10)); ?></a></p>
-               </div>
+     <div class="card col-sm-4 mx-auto">
+          <div class="card-body">
+               <p><?php print($memo['memo']); ?></p>
+               <time><?php print($memo['created_at']); ?></time>
           </div>
-     <?php endwhile ?>
+     </div>
 </article>
-<form action="index.html" type="get" class="text-center">
-     <button class="btn btn-secondary" type="submit">メモ記入</button>
+<form action="index.php" type="get" class="text-center">
+     <button class="btn btn-secondary" type="submit">戻る</button>
 </form>
 </body>
 </html>
