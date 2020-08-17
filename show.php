@@ -32,9 +32,10 @@ $memo = $memos->fetch();
                <time><?php print($memo['created_at']); ?></time>
           </div>
      </div>
+     <div class="text-center my-3">
+          <a href="index.php" class="btn btn-secondary">戻る</a>
+          <a href="edit.php?id=<?php print($memo['id']) ?>" class="btn btn-secondary">編集</a>
+     </div>
 </article>
-<form action="index.php" type="get" class="text-center">
-     <button class="btn btn-secondary" type="submit">戻る</button>
-</form>
 </body>
 </html>
