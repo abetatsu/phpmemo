@@ -34,7 +34,8 @@ $memo = $memos->fetch();
      </div>
      <div class="text-center my-3">
           <a href="index.php" class="btn btn-secondary">戻る</a>
-          <a href="edit.php?id=<?php print($memo['id']) ?>" class="btn btn-secondary">編集</a>
+          <a href="edit.php?id=<?php print($memo['id']); ?>" class="btn btn-secondary">編集</a>
+          <a href="delete.php?id=<?php print($memo['id']); ?>" class="btn btn-danger">削除</a>
      </div>
 </article>
 </body>
