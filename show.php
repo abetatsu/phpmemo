@@ -4,15 +4,12 @@
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-     <title>Document</title>
+     <title>phpmemo</title>
 </head>
 <body class="bg-info">
 <?php
-try {
-     $db = new PDO('mysql:dbname=mydb;host=127.0.0.1;charset=utf8', 'root', 'root');
-} catch(PDOException $e) {
-     echo '接続エラー：' . $e->getMessage();
-}
+require('dbconnect.php');
+
 $id = $_REQUEST['id'];
 if (!is_numeric($id) || $id <= 0)
 {
