@@ -15,10 +15,13 @@ try {
      $statement->execute();
      // $statement->execute(array($_POST['memo']));
      // $db->exec('INSERT INTO phpmemos SET memo="' . $_POST['memo'] . '", created_at=NOW()');
-     echo 'メモが登録されました';
+     echo 'メモ登録完了';
 } catch(PDOException $e) {
      echo '接続エラー：' . $e->getMessage();
 }
 ?>
+<form action="index.php" method="get">
+     <button type="submit" class="btn btn-secondary">メモ一覧へ</button>
+</form>
 </body>
 </html>
