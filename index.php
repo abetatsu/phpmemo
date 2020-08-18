@@ -10,7 +10,18 @@
 <?php
 require('dbconnect.php');
 
-$memos = $db->query('SELECT * FROM phpmemos ORDER BY id DESC');
+if (isset($_REQUEST['page']) && is_numeric($_REQUEST['page']))
+{
+     $page = $_REQUEST['page'];
+} else {
+     $page =1;
+}
+     $start = 5 * ($page - 1);
+     
+     $memos = $db->prepare('SELECT * FROM phpmemos ORDER BY id DESC LIMIT ?, 5');
+     $memos->bindParam(1, $start, PDO::PARAM_INT);
+     $memos->execute();
+
 ?>
 <article class="bg-info my-5">
      <?php while($memo = $memos->fetch()): ?>
@@ -19,7 +30,20 @@ $memos = $db->query('SELECT * FROM phpmemos ORDER BY id DESC');
                     <p><a href="show.php?id=<?php print($memo['id']); ?>"><?php print(mb_substr($memo['memo'], 0, 10)); ?></a></p>
                </div>
           </div>
-     <?php endwhile ?>
+     <?php endwhile; ?>
+     <div class="text-center">
+          <?php if($page >= 2): ?>
+          <a href="index.php?page=<?php print($page-1); ?>" class="text-white"><?php print($page-1) ?>ページへ /</a>
+          <?php endif; ?>
+          <?php
+          $counts = $db->query('SELECT COUNT(*) as cnt FROM memos');
+          $count = $counts->fetch();
+          $max_page = ceil($count['cnt'] / 5);
+          if($page < $max_page):
+          ?>
+          <a href="index.php?page=<?php print($page+1); ?>" class="text-white"><?php print($page+1) ?>ページへ</a>
+          <?php endif; ?>
+     </div>
 </article>
 <form action="index.html" type="get" class="text-center">
      <button class="btn btn-secondary" type="submit">メモ記入</button>
